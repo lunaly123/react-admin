@@ -1,13 +1,21 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/app.js',
+    filename: 'js/index.js',
+  },
+  mode: 'development',
+  resolve: {
+    alias: {
+      views: path.resolve(__dirname, 'src/views'),
+      components: path.resolve(__dirname, 'src/components'),
+      resource:path.resolve(__dirname, 'src/resource'),
+      utils:path.resolve(__dirname, 'src/utils')
+    }
   },
   optimization: {
     splitChunks: {
@@ -21,8 +29,11 @@ module.exports = {
     }
   },
   devServer: {
-    contentBase: './dist',
-    port:9000
+    contentBase: path.join(__dirname, "dist"),
+    port:9000,
+    historyApiFallback:{
+      index: '/index.html'
+    }
   },
   module: {
     rules: [
@@ -32,7 +43,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'react']
+            presets: ['env', 'stage-0', 'react'],
+            plugins:[
+              ['import',[{
+                libraryName:'antd',
+                style: true
+              }]]
+            ]
           }
         }
       },
@@ -50,7 +67,13 @@ module.exports = {
         }, {
           loader: 'css-loader' // translates CSS into CommonJS
         }, {
-          loader: 'less-loader' // compiles Less to CSS
+          loader: require.resolve('less-loader'), // compiles Less to CSS
+          options: {
+            modules: false,
+            modifyVars: {
+              "@primary-color": "#8b8e94"
+            }
+          }
         }]
       },
       {
