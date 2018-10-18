@@ -1,67 +1,74 @@
 import React from 'react';
 import { Card, Table, Modal, Button, message, Badge } from 'antd';
-import axios from './../../axios/index'
-import Utils from './../../utils/utils';
+import Api from 'server/api'
+import Utils from 'utils/utils';
+
 export default class BasicTable extends React.Component {
 
     state = {
-
+        dataSource: [],
     }
     params = {
-        page:1
+        page: 1
     }
-    componentDidMount(){
+    componentDidMount() {
         this.request();
     }
 
     // 动态获取mock数据
     request = () => {
         let _this = this;
-        axios.ajax({
+        Api.ajax({
             url: '/table/high/list',
             data: {
                 params: {
                     page: this.params.page
-                }
+                },
+                isShowLoading: true
             }
         }).then((res) => {
-            if (res.code == 0) {
+            if (res.code === 0) {
                 res.result.list.map((item, index) => {
                     item.key = index;
                 })
                 this.setState({
-                    dataSource: res.result.list
+                    dataSource: res.result.list,
+                    selectedRowKeys: [],
+                    selectedRows: null,
+                    pagination: Utils.pagination(res, (current) => {
+                        _this.params.page = current;
+                        this.request();
+                    })
                 })
             }
         })
     }
 
-    handleChange = (pagination, filters, sorter)=>{
-        console.log("::" + sorter)
+    handleChange = (pagination, filters, sorter) => {
         this.setState({
-            sortOrder:sorter.order
+            sortOrder: sorter.order
         })
     }
 
     // 删除操作
-    handleDelete = (item)=>{
+    handleDelete = (item) => {
         let id = item.id;
         Modal.confirm({
-            title:'确认',
-            content:'您确认要删除此条数据吗？',
-            onOk:()=>{
+            title: '确认',
+            content: '您确认要删除此条数据吗？',
+            onOk: () => {
                 message.success('删除成功');
                 this.request();
             }
         })
     }
 
-    render(){
+    render() {
         const columns = [
             {
                 title: 'id',
                 key: 'id',
-                width:80,
+                width: 80,
                 dataIndex: 'id'
             },
             {
@@ -133,12 +140,17 @@ export default class BasicTable extends React.Component {
                 dataIndex: 'time'
             }
         ]
+
+        columns.map((item) => {
+            item.align = 'center';
+        })
+
         const columns2 = [
             {
                 title: 'id',
                 key: 'id',
                 width: 80,
-                fixed:'left',
+                fixed: 'left',
                 dataIndex: 'id'
             },
             {
@@ -194,7 +206,7 @@ export default class BasicTable extends React.Component {
             },
             {
                 title: '生日',
-                key: 'birthday',
+                key: 'birthday1',
                 width: 120,
                 dataIndex: 'birthday'
             },
@@ -294,21 +306,30 @@ export default class BasicTable extends React.Component {
                 dataIndex: 'time'
             }
         ]
+        columns2.map((item, index) => {
+            item.key = index;
+            item.align = 'center';
+        })
+
+
         const columns3 = [
             {
                 title: 'id',
                 key: 'id',
-                dataIndex: 'id'
+                dataIndex: 'id',
+                width: 80,
             },
             {
                 title: '用户名',
                 key: 'userName',
-                dataIndex: 'userName'
+                dataIndex: 'userName',
+                width: 80,
             },
             {
                 title: '性别',
                 key: 'sex',
                 dataIndex: 'sex',
+                width: 80,
                 render(sex) {
                     return sex == 1 ? '男' : '女'
                 }
@@ -317,15 +338,17 @@ export default class BasicTable extends React.Component {
                 title: '年龄',
                 key: 'age',
                 dataIndex: 'age',
-                sorter:(a,b)=>{
+                width: 80,
+                sorter: (a, b) => {
                     return a.age - b.age;
                 },
-                sortOrder:this.state.sortOrder
+                sortOrder: this.state.sortOrder
             },
             {
                 title: '状态',
                 key: 'state',
                 dataIndex: 'state',
+                width: 80,
                 render(state) {
                     let config = {
                         '1': '咸鱼一条',
@@ -341,6 +364,7 @@ export default class BasicTable extends React.Component {
                 title: '爱好',
                 key: 'interest',
                 dataIndex: 'interest',
+                width: 80,
                 render(abc) {
                     let config = {
                         '1': '游泳',
@@ -358,19 +382,27 @@ export default class BasicTable extends React.Component {
             {
                 title: '生日',
                 key: 'birthday',
-                dataIndex: 'birthday'
+                dataIndex: 'birthday',
+                width: 120,
             },
             {
                 title: '地址',
                 key: 'address',
-                dataIndex: 'address'
+                dataIndex: 'address',
+                width: 120,
             },
             {
                 title: '早起时间',
                 key: 'time',
-                dataIndex: 'time'
+                dataIndex: 'time',
+                width: 80,
             }
         ]
+
+        columns3.map((item) => {
+            item.align = 'center';
+        })
+
         const columns4 = [
             {
                 title: 'id',
@@ -410,7 +442,7 @@ export default class BasicTable extends React.Component {
                 dataIndex: 'interest',
                 render(abc) {
                     let config = {
-                        '1': <Badge status="success" text="成功"/>,
+                        '1': <Badge status="success" text="成功" />,
                         '2': <Badge status="error" text="报错" />,
                         '3': <Badge status="default" text="正常" />,
                         '4': <Badge status="processing" text="进行中" />,
@@ -429,11 +461,16 @@ export default class BasicTable extends React.Component {
             },
             {
                 title: '操作',
-                render:(text,item)=>{
-                    return <Button size="small" onClick={(item) => { this.handleDelete(item) }}>删除</Button>
+                render: (text, item) => {
+                    return <Button type="primary" size="small" onClick={(item) => { this.handleDelete(item) }}>删除</Button>
                 }
             }
         ]
+
+        columns4.map((item) => {
+            item.align = 'center';
+        })
+
         return (
             <div>
                 <Card title="头部固定">
@@ -442,7 +479,7 @@ export default class BasicTable extends React.Component {
                         columns={columns}
                         dataSource={this.state.dataSource}
                         pagination={false}
-                        scroll={{y:240}}
+                        scroll={{ y: 240 }}
                     />
                 </Card>
                 <Card title="左侧固定" style={{ margin: '10px 0' }}>
@@ -451,7 +488,7 @@ export default class BasicTable extends React.Component {
                         columns={columns2}
                         dataSource={this.state.dataSource}
                         pagination={false}
-                        scroll={{ x: 2650 }}
+                        scroll={{ x: 2650, y: 480 }}
                     />
                 </Card>
                 <Card title="表格排序" style={{ margin: '10px 0' }}>
@@ -461,6 +498,7 @@ export default class BasicTable extends React.Component {
                         dataSource={this.state.dataSource}
                         pagination={false}
                         onChange={this.handleChange}
+                        scroll={{ y: 600 }}
                     />
                 </Card>
                 <Card title="操作按钮" style={{ margin: '10px 0' }}>

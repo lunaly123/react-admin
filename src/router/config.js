@@ -8,7 +8,7 @@ import tabs from 'views/ui/tabs';
 import Login from 'views/form/login';
 import Register from 'views/form/register';
 import BasicTable from 'views/table/basicTable';
-// import HighTable from 'views/table/highTable';
+import HighTable from 'views/table/highTable';
 // import Rich from 'views/rich';
 
 const menuList = [
@@ -81,7 +81,7 @@ const menuList = [
       {
         title: '高级表格',
         path: '/table/high',
-        // component: HighTable
+        component: HighTable
       }
     ]
   },

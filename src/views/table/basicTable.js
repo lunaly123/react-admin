@@ -6,7 +6,7 @@ import Utils from 'utils/utils';
 export default class BasicTable extends React.Component {
 
     state = {
-        dataSource2: []
+        dataSource2: [],
     }
 
     params = {
@@ -182,17 +182,22 @@ export default class BasicTable extends React.Component {
                 dataIndex: 'time'
             }
         ]
+
         const { selectedRowKeys } = this.state;
+
         const rowSelection = {
             type: 'radio',
             selectedRowKeys
         }
+        
+        const { selectedRowKeys2 } = this.state;
+
         const rowCheckSelection = {
             type: 'checkbox',
-            selectedRowKeys,
-            onChange: (selectedRowKeys, selectedRows) => {
+            selectedRowKeys2,
+            onChange: (selectedRowKeys2, selectedRows) => {
                 this.setState({
-                    selectedRowKeys,
+                    selectedRowKeys2,
                     selectedRows
                 })
             }
@@ -231,7 +236,7 @@ export default class BasicTable extends React.Component {
                         pagination={false}
                     />
                 </Card>
-                <Card title="Mock-单选" style={{ margin: '10px 0' }}>
+                <Card title="Mock-复选" style={{ margin: '10px 0' }}>
                     <div style={{ marginBottom: 10 }}>
                         <Button onClick={this.handleDelete}>删除</Button>
                     </div>
