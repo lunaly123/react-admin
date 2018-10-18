@@ -14,7 +14,9 @@ module.exports = {
       views: path.resolve(__dirname, 'src/views'),
       components: path.resolve(__dirname, 'src/components'),
       resource:path.resolve(__dirname, 'src/resource'),
-      utils:path.resolve(__dirname, 'src/utils')
+      utils:path.resolve(__dirname, 'src/utils'),
+      server:path.resolve(__dirname, 'src/server'),
+      router:path.resolve(__dirname, 'src/router')
     }
   },
   optimization: {
@@ -38,7 +40,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx|mjs)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -71,7 +73,7 @@ module.exports = {
           options: {
             modules: false,
             modifyVars: {
-              "@primary-color": "#8b8e94"
+              "@primary-color": "#1890ff"
             }
           }
         }]
