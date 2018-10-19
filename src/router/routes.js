@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import menuList from './config';
 
 export default class Routes extends Component {
@@ -32,6 +32,7 @@ export default class Routes extends Component {
     return (
       <Switch>
         {this.state.r}
+        <Redirect to="/home" />
       </Switch>
     )
   }

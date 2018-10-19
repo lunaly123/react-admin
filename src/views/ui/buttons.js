@@ -1,22 +1,28 @@
 import React from 'react'
-import {Card,Button,Radio} from 'antd'
+import { Card, Button, Radio, Icon } from 'antd'
 import './ui.less'
 export default class Buttons extends React.Component {
 
     state = {
-        loading:true,
-        size:'default'
+        loading: true,
+        size: 'default'
     }
 
-    handleCloseLoading=()=>{
+    handleStartLoading = () => {
         this.setState({
-            loading:false
+            loading: true
         });
     }
 
-    handleChange = (e)=>{
+    handleCloseLoading = () => {
         this.setState({
-            size:e.target.value
+            loading: false
+        });
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            size: e.target.value
         })
     }
 
@@ -41,14 +47,14 @@ export default class Buttons extends React.Component {
                 <Card title="Loading按钮" className="card-wrap">
                     <Button type="primary" loading={this.state.loading}>确定</Button>
                     <Button type="primary" shape="circle" loading={this.state.loading}></Button>
-                    <Button loading={this.state.loading} >点击加载</Button>
+                    <Button loading={this.state.loading} onClick={this.handleStartLoading}>点击加载</Button>
                     <Button shape="circle" loading={this.state.loading}></Button>
                     <Button type="primary" onClick={this.handleCloseLoading}>关闭</Button>
                 </Card>
-                <Card title="按钮组" style={{marginBottom:10}}>
+                <Card title="按钮组" style={{ marginBottom: 10 }}>
                     <Button.Group>
-                        <Button type="primary" icon="left">返回</Button>
-                        <Button type="primary" icon="right">前进</Button>
+                        <Button type="primary"><Icon type="left" />返回</Button>
+                        <Button type="primary">前进<Icon type="right" /></Button>
                     </Button.Group>
                 </Card>
                 <Card title="按钮尺寸" className="card-wrap">
@@ -56,7 +62,7 @@ export default class Buttons extends React.Component {
                         <Radio value="small">小</Radio>
                         <Radio value="default">中</Radio>
                         <Radio value="large">大</Radio>
-                    </Radio.Group> 
+                    </Radio.Group>
                     <Button type="primary" size={this.state.size}>Button</Button>
                     <Button size={this.state.size}>Button</Button>
                     <Button type="dashed" size={this.state.size}>Button</Button>

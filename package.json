@@ -31,10 +31,14 @@
     "antd": "^3.10.1",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.9.1",
+    "draftjs-to-html": "^0.8.4",
+    "echarts": "^4.1.0",
+    "echarts-for-react": "^2.0.12-beta.0",
     "jsonp": "^0.2.1",
     "less": "^2.7.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-draft-wysiwyg": "^1.12.13",
     "react-router-dom": "^4.3.1"
   }
 }

@@ -1,25 +1,26 @@
 import React from 'react'
-import {Button,Card,Modal} from 'antd'
-import {Editor} from 'react-draft-wysiwyg'
+import { Button, Card, Modal } from 'antd'
+import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import draftjs from 'draftjs-to-html'
-export default class RichText extends React.Component{
+import Draftjs from 'draftjs-to-html'
+
+export default class RichText extends React.Component {
 
     state = {
-        showRichText:false,
+        showRichText: false,
         editorContent: '',
         editorState: '',
     };
 
-    handleClearContent = ()=>{
+    handleClearContent = () => {
         this.setState({
-            editorState:''
+            editorState: ''
         })
     }
 
-    handleGetText = ()=>{
+    handleGetText = () => {
         this.setState({
-            showRichText:true
+            showRichText: true
         })
     }
 
@@ -35,17 +36,21 @@ export default class RichText extends React.Component{
         });
     };
 
-    render(){
+    render() {
         const { editorContent, editorState } = this.state;
         return (
             <div>
-                <Card style={{marginTop:10}}>
-                    <Button type="primary" onClick={this.handleClearContent}>清空内容</Button>
+                <Card style={{ marginTop: 10 }}>
+                    <Button type="primary" onClick={this.handleClearContent} style={{ marginRight: '10px' }}>清空内容</Button>
                     <Button type="primary" onClick={this.handleGetText}>获取HTML文本</Button>
                 </Card>
                 <Card title="富文本编辑器">
                     <Editor
                         editorState={editorState}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        editorStyle={{border:'1px solid #F1F1F1',padding:'5px',height:'275px'}}
                         onContentStateChange={this.onEditorChange}
                         onEditorStateChange={this.onEditorStateChange}
                     />
@@ -53,14 +58,14 @@ export default class RichText extends React.Component{
                 <Modal
                     title="富文本"
                     visible={this.state.showRichText}
-                    onCancel={()=>{
+                    onCancel={() => {
                         this.setState({
-                            showRichText:false
+                            showRichText: false
                         })
                     }}
                     footer={null}
                 >
-                    {draftjs(this.state.editorContent)}
+                    {Draftjs(this.state.editorContent)}
                 </Modal>
             </div>
         );

@@ -9,7 +9,7 @@ import Login from 'views/form/login';
 import Register from 'views/form/register';
 import BasicTable from 'views/table/basicTable';
 import HighTable from 'views/table/highTable';
-// import Rich from 'views/rich';
+import Rich from 'views/rich';
 
 const menuList = [
   {
@@ -88,7 +88,7 @@ const menuList = [
   {
     title: '富文本',
     path: '/rich',
-    // component:Rich
+    component:Rich
   },
   {
     title: '城市管理',
@@ -116,24 +116,24 @@ const menuList = [
     title: '车辆地图',
     path: '/bikeMap'
   },
-  {
-    title: '图标',
-    path: '/charts',
-    children: [
-      {
-        title: '柱形图',
-        path: '/charts/bar',
-      },
-      {
-        title: '饼图',
-        path: '/charts/pie',
-      },
-      {
-        title: '折线图',
-        path: '/charts/line',
-      },
-    ]
-  },
+  // {
+  //   title: '图标',
+  //   path: '/charts',
+  //   children: [
+  //     {
+  //       title: '柱形图',
+  //       path: '/charts/bar',
+  //     },
+  //     {
+  //       title: '饼图',
+  //       path: '/charts/pie',
+  //     },
+  //     {
+  //       title: '折线图',
+  //       path: '/charts/line',
+  //     },
+  //   ]
+  // },
   {
     title: '权限设置',
     path: '/permission'
