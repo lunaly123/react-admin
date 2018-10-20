@@ -10,6 +10,8 @@ import Register from 'views/form/register';
 import BasicTable from 'views/table/basicTable';
 import HighTable from 'views/table/highTable';
 import Rich from 'views/rich';
+import City from 'views/city';
+import Order from 'views/order';
 
 const menuList = [
   {
@@ -92,21 +94,13 @@ const menuList = [
   },
   {
     title: '城市管理',
-    path: '/city'
+    path: '/city',
+    component:City
   },
   {
     title: '订单管理',
     path: '/order',
-    children: [
-      {
-        title: '订单详情',
-        path: 'detail',
-      },
-      {
-        title: '结束订单',
-        path: 'finish',
-      }
-    ]
+    component:Order
   },
   {
     title: '员工管理',
